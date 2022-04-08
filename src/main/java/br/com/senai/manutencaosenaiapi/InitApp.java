@@ -26,11 +26,16 @@ public class InitApp {
 	public CommandLineRunner commandLineRunner(ApplicationContext ac) {
 		return args ->{
 			try {
-				Tecnico novoTecnico = new Tecnico();
-				novoTecnico.setNomeCompleto("Josevildo Soares");
+//				Tecnico novoTecnico = new Tecnico();
+//				novoTecnico.setNomeCompleto("Josevildo Soares");
 //				LocalDate dataDeAdmisao = LocalDate.of(2022, 4, 7);
 //				novoTecnico.setDataDeAdmissao(dataDeAdmisao);
-				this.service.inserir(novoTecnico);
+//				this.service.inserir(novoTecnico);
+				Tecnico tecnicoSalvo = new Tecnico();
+				tecnicoSalvo.setId(1);
+				tecnicoSalvo.setNomeCompleto("Joane Cleidson");
+				tecnicoSalvo.setDataDeAdmissao(LocalDate.now());
+				this.service.alterar(tecnicoSalvo);
 				System.out.println("Tecnico salvo com sucesso");
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
