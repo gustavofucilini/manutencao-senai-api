@@ -9,7 +9,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import br.com.senai.manutencaosenaiapi.entity.Cliente;
+import br.com.senai.manutencaosenaiapi.entity.Peca;
 import br.com.senai.manutencaosenaiapi.entity.Tecnico;
+import br.com.senai.manutencaosenaiapi.enums.Sexo;
+import br.com.senai.manutencaosenaiapi.service.ClienteService;
+import br.com.senai.manutencaosenaiapi.service.PecaService;
 import br.com.senai.manutencaosenaiapi.service.TecnicoService;
 
 @SpringBootApplication
@@ -17,32 +22,55 @@ public class InitApp {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InitApp.class, args);
+		
 	}
 	
 	@Autowired
 	private TecnicoService service;
 	
-	@Bean
+	@Autowired
+	private ClienteService clienteService;
+	
+	@Autowired
+	private PecaService pecaService;
+	
+	@Bean	
 	public CommandLineRunner commandLineRunner(ApplicationContext ac) {
-		return args ->{
+		return args -> {
 			try {
-//				Tecnico novoTecnico = new Tecnico();
-//				novoTecnico.setNomeCompleto("Josevildo Soares");
-//				LocalDate dataDeAdmisao = LocalDate.of(2022, 4, 7);
-//				novoTecnico.setDataDeAdmissao(dataDeAdmisao);
-//				this.service.inserir(novoTecnico);
-				Tecnico tecnicoSalvo = new Tecnico();
+				/*Tecnico novoTecnico = new Tecnico();
+				novoTecnico.setNomeCompleto("Josevildo Soares");
+				LocalDate dataDeAdmissao = LocalDate.of(2022, 4, 7);
+				novoTecnico.setDataDeAdmissao(dataDeAdmissao);
+				this.service.inserir(novoTecnico);*/
+				/*Tecnico tecnicoSalvo = new Tecnico();
 				tecnicoSalvo.setId(1);
-				tecnicoSalvo.setNomeCompleto("Joane Cleidson");
+				tecnicoSalvo.setNomeCompleto("Joanecleidson");
 				tecnicoSalvo.setDataDeAdmissao(LocalDate.now());
 				this.service.alterar(tecnicoSalvo);
-				System.out.println("Tecnico salvo com sucesso");
-			} catch (Exception e) {
+				System.out.println("Técnico salvo com sucesso");*/
+				/*this.service.listarPor("");
+				this.service.removerPor(1);*/
+				/*Cliente novoCliente = new Cliente();
+				novoCliente.setNome("joão");
+				novoCliente.setSobrenome("da silva");
+				novoCliente.setCpf("123.123.123-41");
+				novoCliente.setSexo(Sexo.MASCULINO);
+				novoCliente.setEndereco("Rua das couves");
+				novoCliente.setDataDeNascimeto(LocalDate.of(2018, 9, 14));
+				this.clienteService.inserir(novoCliente);
+				System.out.println("Cliente salvo com sucesso");*/
+				Peca novaPeca = new Peca();
+				novaPeca.setDescricao("Teclado");
+				novaPeca.setQtdeEmEstoque(10);
+				System.out.println(novaPeca.toString());
+				this.pecaService.inserir(null);
+				System.out.println("Peça inserida com sucesso");
+			}catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-
+			
 		};
-		
 	}
 
 }
