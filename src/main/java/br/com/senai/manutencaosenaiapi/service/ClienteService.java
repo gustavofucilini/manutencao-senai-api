@@ -49,7 +49,7 @@ public class ClienteService {
 			@NotEmpty(message = "O nome para busca e obrigatorio") 
 			@NotBlank(message = "O nome para buscas não deve conter espaço em branco") 
 			String nome) {
-		return repository.listarPor(nome);
+		return repository.listarPor("%"+nome+"%");
 	}
 
 	public void removerPor(
