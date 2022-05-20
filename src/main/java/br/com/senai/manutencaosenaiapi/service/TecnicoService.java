@@ -21,17 +21,17 @@ import br.com.senai.manutencaosenaiapi.repository.TecnicosRepository;
 @Service
 @Validated
 public class TecnicoService {
-	
+
 	@Autowired
 	private TecnicosRepository repository;
-
+	
 	public Tecnico inserir(
 			@Valid
 			@NotNull(message = "O técnico não pode ser nulo")
 			Tecnico novoTecnico) {			
 		Preconditions.checkArgument(novoTecnico.isNovo(),
 				"O técnico já foi salvo");
-		Tecnico tecnicoSalvo = repository.save(novoTecnico);
+		Tecnico tecnicoSalvo = repository.save(novoTecnico);	
 		return tecnicoSalvo;				
 	}
 	
@@ -49,12 +49,12 @@ public class TecnicoService {
 			@NotEmpty(message = "O nome para busca não pode ser nulo")
 			@NotBlank(message = "Não pode haver espaços antes do nome")
 			String nome){
-		return repository.listarPor("%"+nome+"%");
+		return repository.listarPor("%" + nome + "%");		
 	}
 	
 	@Transactional
 	public void removerPor(
-			@NotNull(message = "O id d exclusão não pode ser nulo")
+			@NotNull(message = "O id de exclusão não pode ser nulo")
 			@Min(value = 1, message = "O id deve ser maior que zero")
 			Integer id) {
 		this.repository.deletarPor(id);

@@ -12,44 +12,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import br.com.senai.manutencaosenaiapi.entity.Peca;
-import br.com.senai.manutencaosenaiapi.repository.PecasRepository;
+import br.com.senai.manutencaosenaiapi.entity.TipoPeca;
+import br.com.senai.manutencaosenaiapi.repository.TipoPecasRepository;
 
 @Service
 @Validated
-public class PecaService {
+public class TipoPecaService {
 	
 	@Autowired
-	private PecasRepository repository;
+	private TipoPecasRepository repository;
 
-	public Peca inserir(
+	public TipoPeca inserir(
 			@Valid
-			@NotNull(message = "A peça não pode ser nula")
-			Peca novaPeca) {
-		Peca pecaSalva = repository.save(novaPeca);
+			@NotNull(message = "O tipo da peça não pode ser nula")
+			TipoPeca novaPeca) {
+		TipoPeca pecaSalva = repository.save(novaPeca);
 		return pecaSalva;
 	}
 	
-	public Peca alterar(
+	public TipoPeca alterar(
 			@Valid 
-			@NotNull(message = "A peça não pode ser nula")
-			Peca pecaSalva) {
-		Peca pecaAtualizada = repository.save(pecaSalva);
+			@NotNull(message = "O tipo da peça não pode ser nula")
+			TipoPeca pecaSalva) {
+		TipoPeca pecaAtualizada = repository.save(pecaSalva);
 		return pecaAtualizada;
 	}
 	
 	public void removerPor(
-			@NotNull(message = "O id da peça para remoção não pode ser nulo")
-			@Min(value = 1, message = "O id da peça deve ser maior que zero")
+			@NotNull(message = "O id do tipo da peça para remoção não pode ser nulo")
+			@Min(value = 1, message = "O id do tipo da peça deve ser maior que zero")
 			Integer id) {
 		this.repository.deleteById(id);
 	}
 	
-	public List<Peca> listarPor(
+	public List<TipoPeca> listarPor(
 			@NotEmpty(message = "A descrição da busca é obrigatória")
 			@NotBlank(message = "A descrição não pode conter espaço em branco")
 			String descricao){
 		return repository.listarPor("%" + descricao + "%");
 	}
-	
+
 }
