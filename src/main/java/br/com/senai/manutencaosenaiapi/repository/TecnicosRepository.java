@@ -11,13 +11,18 @@ import org.springframework.stereotype.Repository;
 import br.com.senai.manutencaosenaiapi.entity.Tecnico;
 
 @Repository
-public interface TecnicosRepository extends JpaRepository<Tecnico, Integer>{
+public interface TecnicosRepository 
+		extends JpaRepository<Tecnico, Integer>{
 	
 	@Modifying
-	@Query(value = "delete from Tecnico t where t.id = :id")
+	@Query(value = 
+			"DELETE FROM Tecnico t WHERE t.id = :id")
 	void deletarPor(Integer id);
 	
-	@Query(value = "Select t from Tecnico t where Upper(t.nomeCompleto) LIKE Upper(:nome)")
+	@Query(value = 
+			"SELECT t "
+			+ "FROM Tecnico t "
+			+ "WHERE Upper(t.nomeCompleto) LIKE Upper(:nome)")
 	List<Tecnico> listarPor(@Param("nome") String nome);
 
 }

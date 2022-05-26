@@ -21,9 +21,9 @@ public class PecaService {
 	
 	@Autowired
 	private PecasRepository repository;
-	
+
 	public Peca inserir(
-			@Valid 
+			@Valid
 			@NotNull(message = "A peça não pode ser nula")
 			Peca novaPeca) {
 		Peca pecaSalva = repository.save(novaPeca);
@@ -40,16 +40,16 @@ public class PecaService {
 	
 	public void removerPor(
 			@NotNull(message = "O id da peça para remoção não pode ser nulo")
-			@Min(value = 1,message = "O id da peça deve ser maior que zero")
+			@Min(value = 1, message = "O id da peça deve ser maior que zero")
 			Integer id) {
 		this.repository.deleteById(id);
 	}
 	
 	public List<Peca> listarPor(
-			@NotEmpty(message = "A descrição da busca e obrigatoria")
+			@NotEmpty(message = "A descrição da busca é obrigatória")
 			@NotBlank(message = "A descrição não pode conter espaço em branco")
 			String descricao){
-		return repository.listarPor("%"+descricao+"%");
+		return repository.listarPor("%" + descricao + "%");
 	}
-
+	
 }

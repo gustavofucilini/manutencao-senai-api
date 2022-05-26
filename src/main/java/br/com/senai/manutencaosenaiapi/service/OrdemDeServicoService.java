@@ -1,7 +1,6 @@
 package br.com.senai.manutencaosenaiapi.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -27,16 +26,17 @@ public class OrdemDeServicoService {
 	private OrdensDeServicoRepository repository;
 	
 	public OrdemDeServico inserir(
-			@Valid 
+			@Valid
 			@NotNull(message = "A nova ordem é obrigatória")
 			OrdemDeServico novaOrdem) {
 		this.validar(novaOrdem);
+		
 		OrdemDeServico ordemSalva = repository.save(novaOrdem);
 		return ordemSalva;
 	}
 	
 	public OrdemDeServico alterar(
-			@Valid 
+			@Valid
 			@NotNull(message = "A ordem salva é obrigatória")
 			OrdemDeServico ordemSalva) {
 		this.validar(ordemSalva);
@@ -45,50 +45,68 @@ public class OrdemDeServicoService {
 	}
 	
 	public OrdemDeServico fechar(
-			@Valid 
+			@Valid
 			@NotNull(message = "A ordem é obrigatória")
 			OrdemDeServico ordem) {
-		Preconditions.checkArgument(ordem.getDataDeDateEncerramento() != null, "A data de encerramento é obrigatória");
-		Preconditions.checkArgument(Strings.isNullOrEmpty(ordem.getDescricaoDoReparo()), "A descrição do reparo é obrigatório");
-		boolean isPosterior = ordem.getDataDeDateEncerramento().isAfter(ordem.getDataDeAbertura());
-		Preconditions.checkArgument(isPosterior, "A data de encerramento deve ser posterior a data de abertura");
+		Preconditions.checkArgument(ordem.getDataDeEncerramento() != null,
+				"A data de encerramento é obrigatória");
+		
+		Preconditions.checkArgument(!Strings.isNullOrEmpty(
+				ordem.getDescricaoDoReparo()),
+				"A descrição do reparo é obrigatória");
+		
+		boolean isPosterior = ordem.getDataDeEncerramento()
+				.isAfter(ordem.getDataDeAbertura());
+		
+		Preconditions.checkArgument(isPosterior, 
+				"A data de encerramento deve ser posterior "
+				+ "a data de abertura");
+		
 		for (Peca peca : ordem.getPecasDoReparo()) {
-			int qtdeDeOcorrencia = 0;
+			int qtdeDeOcorrencias = 0;
 			for (Peca outraPeca : ordem.getPecasDoReparo()) {
 				if (peca.equals(outraPeca)) {
-					qtdeDeOcorrencia++;
+					qtdeDeOcorrencias++;
 				}
 			}
-			Preconditions.checkArgument(qtdeDeOcorrencia == 1, "A peça: " + peca.getDescricao() + " já foi adicionada");
+			Preconditions.checkArgument(qtdeDeOcorrencias == 1, 
+					"A peça: " + peca.getDescricao() + " já foi adicionada");
 		}
+		
 		OrdemDeServico ordemAtualizada = repository.save(ordem);
 		return ordemAtualizada;
 	}
 	
 	private void validar(OrdemDeServico ordem) {
-		Preconditions.checkArgument(ordem.getDescricaoDoReparo() == null, "A descrição do reparo não deve ser informada na abertura");
-		Preconditions.checkArgument(ordem.getDataDeDateEncerramento() == null, "A data de encerramento não deve ser informada na abertura");
-		Preconditions.checkArgument(ordem.getPecasDoReparo().isEmpty(), "Nao deve ser informadas peças na abertura da ordem");
+		Preconditions.checkArgument(ordem.getDescricaoDoReparo() == null, 
+				"A descrição do reparo não deve ser informada na abertura");
 		
+		Preconditions.checkArgument(ordem.getDataDeEncerramento() == null,
+				"A data de encerramento não deve ser informada na abertura");
+		
+		Preconditions.checkArgument(ordem.getPecasDoReparo().isEmpty(), 
+				"Não deve ser informadas peças na abertura da ordem");
 	}
 	
 	public List<OrdemDeServico> listarPor(
-			@NotNull(message = "O id do cliente é obrigatorio")
-			@Min(value = 0, message = "O id deve ser maior que zero")
-			Integer idDoCliente) {
+			@NotNull(message = "O id do cliente é obrigatório")
+			@Min(value = 1, message = "O id deve ser maior que zero")
+			Integer idDoCliente){
 		return new ArrayList<OrdemDeServico>();
 	}
 	
 	public void removerPor(
-			@NotNull(message = "o id da ordem é obrigatorio")
-			@Min(value = 1,message = "O id deve ser maior que zero")
+			@NotNull(message = "O id da ordem é obrigatório")
+			@Min(value = 1, message = "O id deve ser maior que zero")
 			Integer idDaOrdem) {
 		
 	}
 	
-	public OrdemDeServico buscarPor(@NotNull(message = "o id da ordem é obrigatorio")
-									@Min(value = 1, message = "O id da ordem deve ser maior que 0")
-									Integer id) {
+	public OrdemDeServico buscarPor(
+			@NotNull(message = "O id da ordem é obrigatório")
+			@Min(value = 1, 
+			message = "O id da ordem deve ser maior que zero")
+			Integer id) {
 		return repository.buscarPor(id);
 	}
 	

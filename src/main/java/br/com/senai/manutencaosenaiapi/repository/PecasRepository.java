@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 import br.com.senai.manutencaosenaiapi.entity.Peca;
 
 @Repository
-public interface PecasRepository extends JpaRepository<Peca, Integer>{
+public interface PecasRepository extends 
+		JpaRepository<Peca, Integer>{
 	
-	@Query(value = "SELECT p FROM Peca p WHERE Upper(p.descricao) LIKE Upper(:desc)")
-	List<Peca> listarPor(@Param("desc") String descriocao);
-
+	@Query(value = 
+			"SELECT p "			
+			+ "FROM Peca p "
+			+ "WHERE Upper(p.descricao) LIKE Upper(:desc)")
+	List<Peca> listarPor(@Param("desc") String descricao);
+	
 }

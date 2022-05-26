@@ -20,18 +20,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "OrdemDeServico")
 @Table(name = "ordens_servicos")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class OrdemDeServico {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
 	private Integer id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,20 +38,22 @@ public class OrdemDeServico {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tecnico")
-	@NotNull(message = "O técnico da order não pode ser nulo")
+	@NotNull(message = "O técnico da ordem não pode ser nulo")
 	private Tecnico tecnico;
 	
 	@Column(name = "dt_abertura")
-	@NotNull(message = "A data de abertura e obrigatoria")
-	@PastOrPresent(message = "A data de abertura não pode ser posterior a data atual")
+	@NotNull(message = "A data de abertura é obrigatória")
+	@PastOrPresent(message = "A data de abertura não pode "
+			+ "ser posterior a data atual")
 	private LocalDate dataDeAbertura;
 	
 	@Column(name = "dt_encerramento")
-	@PastOrPresent(message = "A data de encerramento não pode ser posterior a data atual")
-	private LocalDate dataDeDateEncerramento;
+	@PastOrPresent(message = "A data de encerramento não "
+			+ "pode ser posterior a data atual")
+	private LocalDate dataDeEncerramento;
 	
 	@Column(name = "desc_problema")
-	@NotEmpty(message = "A descrição do problema e obrigatorio")
+	@NotEmpty(message = "A descrição do problema é obrigatória")
 	@NotBlank(message = "A descrição do problema não foi informada")
 	private String descricaoDoProblema;
 	
@@ -62,8 +61,11 @@ public class OrdemDeServico {
 	private String descricaoDoReparo;
 	
 	@ManyToMany
-	@JoinTable(name = "pecas_reparos", joinColumns = @JoinColumn(name = "id_ordem"), inverseJoinColumns = @JoinColumn(name = "id_peca"))
+	@JoinTable(
+		name = "pecas_reparos",
+		joinColumns = @JoinColumn(name = "id_ordem"),
+		inverseJoinColumns = @JoinColumn(name = "id_peca"))
 	@NotEmpty(message = "Deve haver ao menos uma peça de reparo")
 	private List<Peca> pecasDoReparo;
-
+	
 }
